@@ -1,21 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const cors = require('cors');
 const mongoose = require('mongoose');
 const path = require('path');
 require('dotenv').config(); // Load environment variables
 
 const app = express();
-
-// Middleware to enable CORS
-app.use(
-  cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:3000", // Frontend URL for APIs
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true,
-  })
-);
 
 // Middleware to parse JSON requests
 app.use(bodyParser.json());
@@ -39,7 +28,7 @@ mongoose
 const authRoutes = require('./routes/auth');
 app.use('/api/auth', authRoutes);
 
-// Serve static files from the dynamically built "public" folder
+// Serve static files from the "public" folder
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Catch-all route to serve frontend files
