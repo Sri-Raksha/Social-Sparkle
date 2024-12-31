@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Sparkle Bookings</title>
+    <script>
+        const token = localStorage.getItem('token');
+        if (!token) {
+            // Show a message to the user
+            alert('Please signup or login to access this page.');
+    
+            // Save the current page URL for redirecting after login
+            const currentPage = window.location.href;
+            window.location.href = `login.html?redirect=${encodeURIComponent(currentPage)}`;
+        }
+    </script>
+    
+    
+      
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        /* CSS starts here */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        /* Background container with overlay */
+        .background-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('imgs/payapt.jpg'); /* Replace with your image URL */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            z-index: -1;
+        }
+
+        /* Black translucent overlay */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Black with 50% opacity */
+            z-index: -1;
+        }
+
+        /* Navbar styling */
+        .navbar {
+            background-color: #CC6463;
+            display: flex;
+            justify-content: flex-start;
+            padding: 25px 20px;
+            position: fixed; /* Make the navbar fixed at the top */
+            top: 0; /* Align the navbar to the top of the page */
+            left: 0; /* Align the navbar to the left side */
+            width: 100%; /* Make sure the navbar spans the full width */
+            z-index: 1000; /* Ensure the navbar stays on top of other content */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Adds a shadow to the navbar */
+        }
+
+        .navbar .navbar-brand {
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .navbar a,
+        .navbar .navbar-brand {
+            color: white;
+        }
+
+        .navbar a:hover {
+            color: #ddd;
+        }
+
+        .booking-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 120px 20px 20px 20px; /* Add 100px padding at the top */
+            flex: 1;
+        }
+
+
+        .booking-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .booking-header h1 {
+            font-size: 2.5rem;
+            color: #ffffff;
+        }
+
+        .booking-header p {
+            font-size: 1.2rem;
+            color: #ffffff;
+        }
+
+        .service-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .service-card {
+            background: #535252;
+            border: 1px solid #515050;
+            border-radius: 10px;
+            width: 300px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 15px;
+            height: auto;
+            box-sizing: border-box;
+        }
+
+        .service-card:hover {
+            transform: scale(1.05);
+        }
+
+        .service-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            color: #ffffff;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .service-card p {
+            font-size: 1rem;
+            color: #ffffff;
+            text-align: center;
+            margin: 5px 0;
+        }
+
+        .service-card .book-btn {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-transform: uppercase;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            align-self: center;
+            margin-top: auto;
+        }
+
+        .service-card .book-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Cart Popup Styling */
+        #cart-popup {
+            position: fixed;
+            right: 0;
+            top: 0;
+            width: 300px;
+            height: 100vh;
+            background-color: rgb(2, 1, 1);
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            display: none;
+            z-index: 1000;
+            color: #ffffff;
+        }
+
+        #cart-popup h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        #cart-popup .cart-items {
+            max-height: 60vh;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+
+        #cart-popup .cart-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        #cart-popup .total {
+            font-size: 1.5rem;
+            margin-top: 20px;
+            text-align: right;
+        }
+
+        #cart-popup .close-btn {
+            background-color: #d9534f;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            display: block;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        #cart-popup .close-btn:hover {
+            background-color: #c9302c;
+        }
+
+        #cart-popup .checkout-btn {
+            background-color: #5cb85c;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            display: block;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        #cart-popup .checkout-btn:hover {
+            background-color: #7fae4c;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        main {
+            padding-bottom: 30vh; /* Ensures space for the footer */
+            padding-top: 50vh;
+        }
+
+    #footer {
+        width: 100%;
+        height: 30vh;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        background: linear-gradient(to left bottom, #CC6463, #18bcf8);
+        color: #ffffff;
+        font-weight: 700;
+        font-size: 0.9rem;
+        margin-top: 20px; /* Adds space between the main content and footer */
+    }
+
+    #footer a {
+        color: #ffffff;
+        text-decoration: none;
+    }
+
+    #footer h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #fffefe;
+        }
+
+    #f1, #f2, #f3, #f4 {
+        display: flex;
+        align-items: start;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    #f4 {
+        text-align: center; /* Center the download section */
+    }
+
+    </style>
+</head>
+<body>
+    <div class="background-container">
+        <div class="overlay"></div>
+    </div>
+
+    <nav class="navbar navbar-light" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 20px;">
+        <!-- Left Section: Logo -->
+        <div id="logo" style="display: flex; align-items: center;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="27" fill="white" class="bi bi-brightness-high-fill" viewBox="0 0 16 16" style="margin-right:20px; margin-bottom:3px; margin-left:30px;">
+                <path d="M12 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/>
+            </svg>
+            <a class="navbar-brand" href="index.html" style="color: white; text-decoration: none; font-size: 1.5rem;">Social Sparkle</a>
+        </div>
+    
+        <!-- Right Section: Logout Button -->
+        <button onclick="logoutUser()" style="background-color: transparent; border: none; color: white; font-size: 1.3rem; cursor: pointer;">Logout</button>
+    </nav>
+    
+
+    <div class="booking-container">
+        <div class="booking-header">
+            <h1>Book a Service</h1>
+            <p>Select a service to book an appointment with Social Sparkle!</p>
+        </div>
+        <div class="service-list">
+            <!-- Service Card 1 -->
+            <div class="service-card">
+                <img src="imgs/clean.jpg" alt="Service 1">
+                <h3>House Cleaning</h3>
+                <p>Regular or deep cleaning for your apartment.</p>
+                <p><strong>$50</strong></p>
+                <button class="book-btn" onclick="addToCart('House Cleaning', 50)">Book Now</button>
+            </div>
+
+            <!-- Service Card 2 -->
+            <div class="service-card">
+                <img src="imgs/laundry.jpg" alt="Service 2">
+                <h3>Laundry & Dry Cleaning</h3>
+                <p>Pick-up and drop-off services.</p>
+                <p><strong>$30</strong></p>
+                <button class="book-btn" onclick="addToCart('Laundry & Dry Cleaning', 30)">Book Now</button>
+            </div>
+
+            <!-- Service Card 3 -->
+            <div class="service-card">
+                <img src="imgs/plum.jpg" alt="Service 3">
+                <h3>Plumbing & Electrical Repairs</h3>
+                <p>Quick fixes for your plumbing and electrical needs.</p>
+                <p><strong>$75</strong></p>
+                <button class="book-btn" onclick="addToCart('Plumbing & Electrical Repairs', 75)">Book Now</button>
+            </div>
+
+            <!-- Service Card 4 -->
+            <div class="service-card">
+                <img src="imgs/pest.jpg" alt="Service 4">
+                <h3>Pest Control</h3>
+                <p>Get rid of pests in your apartment.</p>
+                <p><strong>$40</strong></p>
+                <button class="book-btn" onclick="addToCart('Pest Control', 40)">Book Now</button>
+            </div>
+
+            <!-- Service Card 5 -->
+            <div class="service-card">
+                <img src="imgs/gym.jpg" alt="Service 5">
+                <h3>Fitness Training & Yoga</h3>
+                <p>Personal training or yoga sessions.</p>
+                <p><strong>$60</strong></p>
+                <button class="book-btn" onclick="addToCart('Fitness Training & Yoga', 60)">Book Now</button>
+            </div>
+
+            <!-- Service Card 6 -->
+            <div class="service-card">
+                <img src="imgs/pet.jpg" alt="Service 6">
+                <h3>Pet Care</h3>
+                <p>Pet sitting, grooming, and walking.</p>
+                <p><strong>$25</strong></p>
+                <button class="book-btn" onclick="addToCart('Pet Care', 25)">Book Now</button>
+            </div>
+
+            <!-- Service Card 7 -->
+            <div class="service-card">
+                <img src="imgs/car.jpg" alt="Service 7">
+                <h3>Car Wash & Maintenance</h3>
+                <p>On-site car washing and minor maintenance.</p>
+                <p><strong>$20</strong></p>
+                <button class="book-btn" onclick="addToCart('Car Wash & Maintenance', 20)">Book Now</button>
+            </div>
+
+            <!-- Service Card 8 -->
+            <div class="service-card">
+                <img src="imgs/party.jpg" alt="Service 8">
+                <h3>Catering & Party Services</h3>
+                <p>Catering for parties or events within the apartment.</p>
+                <p><strong>$100</strong></p>
+                <button class="book-btn" onclick="addToCart('Catering & Party Services', 100)">Book Now</button>
+            </div>
+
+            <!-- Service Card 9 -->
+            <div class="service-card">
+                <img src="imgs/kid.jpg" alt="Service 9">
+                <h3>Babysitting & Childcare</h3>
+                <p>Trustworthy babysitting and childcare services.</p>
+                <p><strong>$40</strong></p>
+                <button class="book-btn" onclick="addToCart('Babysitting & Childcare', 40)">Book Now</button>
+            </div>
+
+            <!-- Service Card 10 -->
+            <div class="service-card">
+                <img src="imgs/tech.jpg" alt="Service 10">
+                <h3>Tech Support & Device Repairs</h3>
+                <p>Assistance with tech devices and troubleshooting.</p>
+                <p><strong>$50</strong></p>
+                <button class="book-btn" onclick="addToCart('Tech Support & Device Repairs', 50)">Book Now</button>
+            </div>
+
+            <!-- Service Card 11 -->
+            <div class="service-card">
+                <img src="imgs/movein.jpg" alt="Service 11">
+                <h3>Moving Assistance</h3>
+                <p>Help with moving in or out of your apartment.</p>
+                <p><strong>$80</strong></p>
+                <button class="book-btn" onclick="addToCart('Moving Assistance', 80)">Book Now</button>
+            </div>
+
+            <!-- Service Card 12 -->
+            <div class="service-card">
+                <img src="imgs/storage.jpg" alt="Service 12">
+                <h3>Storage Solutions</h3>
+                <p>Temporary storage for your belongings.</p>
+                <p><strong>$30</strong></p>
+                <button class="book-btn" onclick="addToCart('Storage Solutions', 30)">Book Now</button>
+            </div>
+        </div>
+    </div>
+    <div id="footer">
+        <div id="f1">
+          <h1>Solutions</h1>
+          <a href="">For Societies</a>
+          <a href="">For Residents</a>
+          <a href="">For Brands</a>
+        </div>
+        <div id="f2">
+          <h1>Company</h1>
+          <a href="">Our Story</a>
+          <a href="">Careers</a>
+          <a href="">Contact us</a>
+          <a href="">Blog</a>
+          <a href="">FAQs</a>
+          <a href="">Data Privacy</a>
+          <a href="">Responsible Disclosure</a>
+          <a href="">Terms And Conditions</a>
+          <a href="">Privacy Policy</a>
+        </div>
+        <div id="f3">
+          <h1>Contact</h1>
+          <p>SocialSparkle (Vivish Technologies Pvt Ltd), 
+            <br>Site no. 12&13, 17th Cross, Sector-7, 
+            <br>HSR Layout, 
+            <br>Bengaluru-560102 
+            <br>Bengaluru KA 560102 IN</p>
+          <p>Call: 1800 123 2084</p>
+          <p>Mail: contact@socialsparkle.com</p>
+          <div id="ficons"></div>
+        </div>
+        <div id="f4">
+        <h6 style="margin-bottom:2px;margin-top:3px;">DOWNLOAD OUR APP</h6>
+        <img src="imgs/appstore.png" alt="appstore" style="height:40px; width: 130px;">
+        <img src="imgs/gplay.png" alt="playstore" style="height:60px; width: 130px;">
+        </div>
+      </div>
+
+    <!-- Cart Popup -->
+    <div id="cart-popup">
+        <h2>Your Cart</h2>
+        <div class="cart-items" id="cart-items">
+            <!-- Cart items will be listed here -->
+        </div>
+        <div class="total" id="cart-total">
+            Total: $0
+        </div>
+        <button class="checkout-btn" onclick="checkout()">Checkout</button>
+        <button class="close-btn" onclick="closeCart()">Close Cart</button>
+    </div>
+
+    <script>
+        let cart = [];
+        let total = 0;
+
+        function addToCart(service, price) {
+            cart.push({ service, price });
+            total += price;
+            updateCart();
+            openCart();
+
+            // Save the cart to localStorage
+            localStorage.setItem('cart', JSON.stringify(cart));
+            localStorage.setItem('total', total);
+        }
+
+        function updateCart() {
+            const cartItemsDiv = document.getElementById('cart-items');
+            cartItemsDiv.innerHTML = '';
+            cart.forEach(item => {
+                const cartItem = document.createElement('div');
+                cartItem.classList.add('cart-item');
+                cartItem.innerHTML = `<span>${item.service}</span> <span>$${item.price}</span>`;
+                cartItemsDiv.appendChild(cartItem);
+            });
+
+            const cartTotal = document.getElementById('cart-total');
+            cartTotal.innerHTML = `Total: $${total}`;
+        }
+
+        function openCart() {
+            document.getElementById('cart-popup').style.display = 'block';
+        }
+
+        function closeCart() {
+            document.getElementById('cart-popup').style.display = 'none';
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert("Your cart is empty! Please add items before checking out.");
+                return;
+            }
+
+            window.location.href = 'payment.html'; // Redirect to payment page
+        }
+
+        function logoutUser() {
+            localStorage.removeItem('token'); // Clear token from localStorage
+            alert('Logged out successfully!');
+            window.location.href = 'login.html'; // Redirect to login page
+        }
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

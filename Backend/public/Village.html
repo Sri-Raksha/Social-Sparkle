@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SS Villages</title>
+    <script>
+      const token = localStorage.getItem('token');
+      if (!token) {
+          // Show a message to the user
+          alert('Please signup or login to access this page.');
+  
+          // Save the current page URL for redirecting after login
+          const currentPage = window.location.href;
+          window.location.href = `login.html?redirect=${encodeURIComponent(currentPage)}`;
+      }
+  </script>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="village.css">
+</head>
+<body>
+  <div id="nav" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 20px;">
+    <!-- Left Section (Logo and Link) -->
+    <div id="logo" style="display: flex; align-items: center;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="27" fill="currentColor" class="bi bi-brightness-high-fill" viewBox="0 0 16 16" style="margin-right:10px;">
+            <path d="M12 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/>
+        </svg>
+        <a href="index.html" style="text-decoration: none; color: white; font-size: 1.4rem;">Villages</a>
+    </div>
+
+    <!-- Center Section (Optional Content) -->
+    <div id="content">
+        <h6 style="margin: 0; color: white;">Village life, where every face is a familiar place</h6>
+    </div>
+
+    <!-- Right Section (Logout Button) -->
+    <div>
+        <button onclick="logoutUser()" style="background-color: transparent; border: none; color: white; font-size: 1rem; cursor: pointer;">Logout</button>
+    </div>
+</div>
+
+    <div id="main">
+        <div id="page1">
+            <div id="part1">
+                <video autoplay loop muted playsinline="playsinline" class="video"><source src="https://www.museisenesi.org/video/fms_2021_eng.mp4" type="video/mp4"></video></div>
+            <div id="part2">
+                <img src="imgs/villicon.png">
+            </div>
+        </div>
+        <div id="page2">
+            <div id="caro">
+                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                      <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                      <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                      <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+                    </ol>
+                    <div class="carousel-inner">
+                      <div class="carousel-item active">
+                        <img class="d-block w-100" src="imgs/vil1.png" alt="First slide">
+                      </div>
+                      <div class="carousel-item">
+                        <img class="d-block w-100" src="imgs/vil2.png" alt="Second slide">
+                      </div>
+                      <div class="carousel-item">
+                        <img class="d-block w-100" src="imgs/vil3.png" alt="Third slide">
+                      </div>
+                      <div class="carousel-item">
+                        <img class="d-block w-100" src="imgs/vil4.png" alt="Third slide">
+                      </div>
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                      <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                      <span class="sr-only">Next</span>
+                    </a>
+                  </div>
+            </div>
+            <div id="inform">
+                <h2>A Portrait of Rural Harmony: India's Village Communities</h2>
+                <p>In India's picturesque villages, community is more than a concept; it's a way of life. Amidst the rustic beauty and serene landscapes, village life thrives on the close bonds and collective spirit of its residents. Here, neighbors are like extended family, traditions are cherished, and shared values foster a sense of unity. Villages are where the roots of India's rich culture run deep, where generations come together to celebrate festivals, uphold age-old customs, and ensure the well-being of all. In these rural settings, the heartbeat of India's soul resonates through the warmth and interconnectedness of its communities.</p>
+            </div>
+        </div>
+        <div id="page3">
+            <div class="bgimage"></div>
+            <div id="cover">
+                <p>Our web app will serve as an invaluable resource for village communities, bridging gaps and fostering development. By providing a central platform for communication, it will enable villagers to access essential information, resources, and services, from healthcare and education to local governance and economic opportunities. It will empower them to actively participate in community affairs, promote their unique culture, and strengthen the bonds that define rural life. Our web app has the potential to uplift village communities by improving access to vital resources, enhancing communication, and driving local development, ultimately leading to a better quality of life for residents.</p>
+            </div>
+        </div>
+        <div id="footer">
+            <div id="f1">
+              <h1>Solutions</h1>
+              <a href="">For Societies</a>
+              <a href="">For Residents</a>
+              <a href="">For Brands</a>
+            </div>
+            <div id="f2">
+              <h1>Company</h1>
+              <a href="">Our Story</a>
+              <a href="">Careers</a>
+              <a href="">Contact us</a>
+              <a href="">Blog</a>
+              <a href="">FAQs</a>
+              <a href="">Data Privacy</a>
+              <a href="">Responsible Disclosure</a>
+              <a href="">Terms And Conditions</a>
+              <a href="">Privacy Policy</a>
+            </div>
+            <div id="f3">
+              <h1>Contact</h1>
+              <p>SocialSparkle (Vivish Technologies Pvt Ltd), 
+                <br>Site no. 12&13, 17th Cross, Sector-7, 
+                <br>HSR Layout, 
+                <br>Bengaluru-560102 
+                <br>Bengaluru KA 560102 IN</p>
+              <p>Call: 1800 123 2084</p>
+              <p>Mail: contact@socialsparkle.com</p>
+              <div id="ficons"></div>
+            </div>
+            <div id="f4">
+            <h6 style="margin-bottom:2px;margin-top:3px;">DOWNLOAD OUR APP</h6>
+            <img src="imgs/appstore.png" alt="appstore" style="height:40px; width: 130px;">
+            <img src="imgs/gplay.png" alt="playstore" style="height:60px; width: 130px;">
+            </div>
+          </div>
+    </div>
+    <script>
+        function logoutUser() {
+      localStorage.removeItem('token'); // Clear token
+      alert('Logged out successfully!');
+      window.location.href = 'login.html'; // Redirect to login page
+  }
+
+    </script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

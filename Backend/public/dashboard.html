@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Sparkle Dashboard</title>
+    <script>
+    const token = localStorage.getItem('token');
+        if (!token) {
+            alert('Please log in to access this page.');
+            window.location.href = 'login.html';
+        }
+        </script>
+    
+
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .background-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('imgs/apt1.jpg'); /* Replace with your image URL */
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Black with 50% opacity */
+            z-index: -1;
+        }
+
+        .navbar {
+            background-color: #F4AE3F;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar .navbar-brand {
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .navbar a, .navbar button {
+            color: white;
+            text-decoration: none;
+        }
+
+        .navbar button {
+            background-color: transparent;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .navbar button:hover {
+            color: #ddd;
+        }
+
+        .welcome-container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 50px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+            margin: 100px auto 0 auto; /* Adds space below the navbar */
+        }
+
+        .welcome-container h1 {
+            font-size: 2.5rem;
+            color: #F4AE3F;
+            margin-bottom: 20px;
+        }
+
+        .welcome-container p {
+            font-size: 1.2rem;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        .welcome-container .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px; /* Adds space between buttons */
+        }
+
+        .welcome-container .btn {
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            border-radius: 5px;
+            flex: 1; /* Ensures buttons are uniform in size */
+            text-align: center;
+        }
+
+        .welcome-container .btn:hover {
+            transform: scale(1.05);
+        }
+
+        #footer {
+            width: 100%;
+            height: 30vh;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            background: linear-gradient(to left bottom, #F4AE3F, #FBF09C);
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 0.9rem;
+            position: relative;
+            margin-top: auto;
+        }
+
+        #footer a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        #footer h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #0056b3;
+        }
+
+        #f1, #f2, #f3, #f4 {
+            display: flex;
+            align-items: start;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        #f4 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-container">
+        <div class="overlay"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div id="logo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="27" fill="white" class="bi bi-brightness-high-fill" viewBox="0 0 16 16" style="margin-right:20px; margin-bottom:10px;">
+                <path d="M12 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/>
+            </svg>
+            <a class="navbar-brand" href="index.html">Social Sparkle</a>
+        </div>
+        <button style="font-size:1.5rem;" onclick="logoutUser()">Logout</button>
+    </nav>
+
+    <!-- Welcome Container -->
+    <div class="welcome-container">
+        <h1>Welcome to Social Sparkle</h1>
+        <p>Your one-stop solution for managing bookings, exploring communities, and connecting with others. Let’s build stronger connections together.</p>
+        <div class="btn-container">
+            <a href="login.html" class="btn btn-primary">About Us</a>
+            <a href="booking.html" class="btn btn-success">Bookings</a>
+            <a href="community.html" class="btn btn-info">Community</a>
+            <a href="village.html" class="btn btn-warning">Village</a>
+        </div>
+    </div>
+    
+
+    <!-- Footer -->
+    <div id="footer">
+        <div id="f1">
+            <h1>Solutions</h1>
+            <a href="">For Societies</a>
+            <a href="">For Residents</a>
+            <a href="">For Brands</a>
+        </div>
+        <div id="f2">
+            <h1>Company</h1>
+            <a href="">Our Story</a>
+            <a href="">Careers</a>
+            <a href="">Contact us</a>
+            <a href="">Blog</a>
+            <a href="">FAQs</a>
+            <a href="">Data Privacy</a>
+            <a href="">Responsible Disclosure</a>
+            <a href="">Terms And Conditions</a>
+            <a href="">Privacy Policy</a>
+        </div>
+        <div id="f3">
+            <h1>Contact</h1>
+            <p>SocialSparkle (Vivish Technologies Pvt Ltd), 
+                <br>Site no. 12&13, 17th Cross, Sector-7, 
+                <br>HSR Layout, 
+                <br>Bengaluru-560102 
+                <br>Bengaluru KA 560102 IN</p>
+            <p>Call: 1800 123 2084</p>
+            <p>Mail: contact@socialsparkle.com</p>
+        </div>
+        <div id="f4">
+            <h6 style="margin-bottom:2px;margin-top:3px;">DOWNLOAD OUR APP</h6>
+            <img src="imgs/appstore.png" alt="appstore" style="height:40px; width: 130px;">
+            <img src="imgs/gplay.png" alt="playstore" style="height:60px; width: 130px;">
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        function logoutUser() {
+            localStorage.removeItem('token'); // Clear token
+            alert('Logged out successfully!');
+            window.location.href = 'login.html'; // Redirect to login
+        }
+    </script>
+</body>
+</html>

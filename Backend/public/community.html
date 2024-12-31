@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Page - Social Sparkle</title>
+    <script>
+        const token = localStorage.getItem('token');
+        if (!token) {
+            // Show a message to the user
+            alert('Please signup or login to access this page.');
+    
+            // Save the current page URL for redirecting after login
+            const currentPage = window.location.href;
+            window.location.href = `login.html?redirect=${encodeURIComponent(currentPage)}`;
+        }
+    </script>
+    
+    
+      
+    <style>
+        body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #F5C1AA;
+    color: #333;
+}
+
+.background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('imgs/ch.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    z-index: -2;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #000000;
+    padding: 10px 20px;
+    color: #FFF;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar .logo {
+    display: flex;
+    align-items: center;  /* Vertically aligns the logo and text */
+}
+
+.navbar .logo svg {
+    margin-right: 10px;  /* Spacing between the logo and the text */
+    vertical-align: middle;  /* Ensures the logo is aligned with the text */
+}
+
+.navbar .navbar-brand {
+    font-size: 1.3 rem;  /* Increases font size to match the logo size */
+    font-weight: bold;
+    letter-spacing: 1px;
+    color: white;
+    margin-bottom: 2px;  /* Aligns the text properly with the logo */
+}
+
+.navbar a,
+.navbar .navbar-brand {
+    color: white;
+    text-decoration: none;
+}
+
+.navbar a:hover {
+    color: #ddd;
+}
+
+.navbar .search-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    position: relative;
+}
+
+.navbar .search-bar input {
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    width: 100%;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.navbar .search-bar input:focus {
+    border-color: #4CAF50;
+}
+
+.navbar .search-bar button {
+    position: absolute;
+    right: 1px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: #FFF;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.navbar .search-bar button:hover {
+    background-color: #45a049;
+}
+
+.navbar .search-bar button:active {
+    background-color: #388E3C;
+}
+
+.navbar .user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-right: 20px;
+}
+
+.navbar .user img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.navbar .user span {
+    font-size: 16px;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto;
+    max-width: 1400px;
+    padding: 20px;
+    min-height: 100vh; /* Ensure the container takes up at least the full viewport height */
+}
+
+.sidebar, .right-sidebar {
+    flex-shrink: 0; /* Prevent shrinking of sidebars */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    color: #FFF;
+    position: relative;
+    max-height: fit-content;
+}
+
+.sidebar {
+    width: 20%;
+    background-color: #665a72;
+}
+
+.right-sidebar {
+    width: 20%;
+    background-color: #8A8297;
+}
+
+.main-content {
+    flex-grow: 1; /* Main content takes remaining space */
+    margin: 0 20px;
+    background-color: #FFF;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin: 10px 0;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: #FFF;
+    font-weight: bold;
+}
+
+.sidebar ul li a:hover {
+    color: #A5B57F;
+}
+
+.post-input {
+    background-color: #F9F9F9;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.post-input textarea {
+    width: 100%;
+    border: 1px solid #DDD;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    resize: none;
+}
+
+.post-input button {
+    background-color: #86AAD2;
+    color: #FFF;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.post-input button:hover {
+    background-color: #A5B57F;
+}
+
+.post {
+    border-bottom: 1px solid #DDD;
+    padding: 15px 0;
+}
+
+.post:last-child {
+    border-bottom: none;
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.post-header img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.post-header .user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.post-header .user-info span {
+    font-size: 14px;
+    color: #8C8275;
+}
+
+.post-content {
+    font-size: 16px;
+}
+
+.post-image {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.post-actions {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;  /* Space between buttons */
+}
+
+.post-actions button {
+    background-color: #F5C1AA;
+    border: none;
+    cursor: pointer;
+    color: #333;
+    font-size: 14px;
+    padding: 8px 16px;
+    border-radius: 25px; /* Rounded corners */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition for hover and active effects */
+}
+
+.post-actions button:hover {
+    background-color: #86AAD2; /* Background color on hover */
+    color: white; /* Text color on hover */
+    transform: scale(1.05); /* Slight enlarge effect on hover */
+}
+.post-actions button:active {
+    background-color: #4CAF50; /* Green background when clicked */
+    transform: scale(0.98); /* Shrinks button on click */
+}
+.post-input textarea {
+    width: 100%;             /* Ensures the textarea takes up the full width of its container */
+    max-width: 100%;         /* Prevents the textarea from expanding beyond its container */
+    box-sizing: border-box; /* Ensures padding and border are included in the width calculation */
+    border: 1px solid #DDD;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    resize: none;           /* Disables resizing of the textarea */
+    overflow: hidden;       /* Prevents overflow when content exceeds the visible area */
+}
+
+
+.right-sidebar .widget {
+    margin-bottom: 20px;
+}
+
+.right-sidebar .widget h3 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.right-sidebar .widget ul {
+    list-style: none;
+    padding: 0;
+}
+
+.right-sidebar .widget ul li {
+    margin: 5px 0;
+}
+
+.right-sidebar .widget ul li a {
+    text-decoration: none;
+    color: #ebecec;
+}
+
+.right-sidebar .widget ul li a:hover {
+    color: #A5B57F;
+}
+
+/* Choose File Button */
+#postImage {
+    display: none;
+}
+
+.choose-file-btn {
+    background-color: #4CAF50;
+    color: white;
+    font-size: 14px;
+    padding: 12px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.choose-file-btn:hover {
+    background-color: #45a049;
+}
+
+    </style>
+</head>
+<body>
+    <div class="background-container">
+        <div class="overlay"></div>
+    </div>
+
+    <div class="navbar">
+        <div class="logo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="27" fill="white" class="bi bi-brightness-high-fill" viewBox="0 0 16 16" style="margin-right: 10px; margin-bottom: 5px;">
+                <path d="M12 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/>
+            </svg>
+            <a class="navbar-brand" href="index.html">Social Sparkle</a>
+        </div>
+        
+        <div class="search-bar">
+            <input type="text" placeholder="Search for creators, inspirations and projects">
+            <button>Search</button>
+        </div>
+    
+        <div class="user">
+            <img src="imgs/PI.jpg" alt="User">
+            <span>John Doe</span>
+        </div>
+    </div>
+    
+
+    <div class="container">
+        <div class="sidebar">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Explore</a></li>
+                <li><a href="#">Notifications</a></li>
+                <li><a href="#">Messages</a></li>
+                <li><a href="#">Events</a></li>
+                <li><a href="#">Analytics</a></li>
+                <li><a href="#">Settings</a></li>
+            </ul>
+        </div>
+
+        <div class="main-content">
+            <div class="post-input">
+                <textarea  id="postContent" rows="3" placeholder="What's on your mind?"></textarea>
+                <label for="postImage" class="choose-file-btn">Choose File</label>
+                <input type="file" id="postImage" accept="image/*">
+                <button onclick="addPost()">Post</button>
+            </div>
+
+            <div id="posts">
+                <div class="post">
+                    <div class="post-header">
+                        <img src="imgs/PI.jpg" alt="User">
+                        <div class="user-info">
+                            <strong>Jane Doe</strong>
+                            <span>5 minutes ago</span>
+                        </div>
+                    </div>
+                    <div class="post-content">Excited to announce our community cleanup event this weekend! Join us to make a difference. 🌟</div>
+                    <img class="post-image" src="imgs/cleaning.jpg" alt="Event Image">
+                    <div class="post-actions">
+                        <button>Like</button>
+                        <button>Comment</button>
+                        <button>Share</button>
+                    </div>
+                </div>
+            
+                <div class="post">
+                    <div class="post-header">
+                        <img src="imgs/P2.jpg" alt="User">
+                        <div class="user-info">
+                            <strong>John Smith</strong>
+                            <span>10 minutes ago</span>
+                        </div>
+                    </div>
+                    <div class="post-content">Does anyone know a good babysitter in the area? Need recommendations!</div>
+                    <img class="post-image" src="imgs/bs.jpg" alt="Babysitter Search">
+                    <div class="post-actions">
+                        <button>Like</button>
+                        <button>Comment</button>
+                        <button>Share</button>
+                    </div>
+                </div>
+            
+                <div class="post">
+                    <div class="post-header">
+                        <img src="imgs/P3.jpg" alt="User">
+                        <div class="user-info">
+                            <strong>Emily Clark</strong>
+                            <span>30 minutes ago</span>
+                        </div>
+                    </div>
+                    <div class="post-content">Selling a slightly used dining table. DM me for details!</div>
+                    <img class="post-image" src="imgs/dt.jpg" alt="Dining Table for Sale">
+                    <div class="post-actions">
+                        <button>Like</button>
+                        <button>Comment</button>
+                        <button>Share</button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="right-sidebar">
+            <div class="widget">
+                <h3>Trending Topics</h3>
+                <ul>
+                    <li><a href="#">Community Cleanup</a></li>
+                    <li><a href="#">New Year Events</a></li>
+                    <li><a href="#">Tech Meetups</a></li>
+                </ul>
+            </div>
+            <div class="widget">
+                <h3>Upcoming Events</h3>
+                <ul>
+                    <li><a href="#">Christmas Dinner</a></li>
+                    <li><a href="#">New Year Party</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function addPost() {
+            var postContent = document.getElementById('postContent').value;
+            var postImage = document.getElementById('postImage').files[0];
+            var postContainer = document.getElementById('posts');
+
+            var postDiv = document.createElement('div');
+            postDiv.classList.add('post');
+
+            var postHeader = document.createElement('div');
+            postHeader.classList.add('post-header');
+            
+            var userImage = document.createElement('img');
+            userImage.src = 'https://via.placeholder.com/40';
+            userImage.alt = 'User';
+
+            var userInfo = document.createElement('div');
+            userInfo.classList.add('user-info');
+            
+            var userName = document.createElement('strong');
+            userName.innerText = 'Your Name'; // Use dynamic user name here
+            
+            var timeSpan = document.createElement('span');
+            timeSpan.innerText = 'Just now';
+            
+            userInfo.appendChild(userName);
+            userInfo.appendChild(timeSpan);
+            
+            postHeader.appendChild(userImage);
+            postHeader.appendChild(userInfo);
+            
+            var postContentDiv = document.createElement('div');
+            postContentDiv.classList.add('post-content');
+            postContentDiv.innerText = postContent;
+
+            postDiv.appendChild(postHeader);
+            postDiv.appendChild(postContentDiv);
+            
+            if (postImage) {
+                var postImageElement = document.createElement('img');
+                postImageElement.src = URL.createObjectURL(postImage);
+                postImageElement.classList.add('post-image');
+                postDiv.appendChild(postImageElement);
+            }
+
+            var postActions = document.createElement('div');
+            postActions.classList.add('post-actions');
+
+            var likeButton = document.createElement('button');
+            likeButton.innerText = 'Like';
+            
+            var commentButton = document.createElement('button');
+            commentButton.innerText = 'Comment';
+            
+            var shareButton = document.createElement('button');
+            shareButton.innerText = 'Share';
+            
+            postActions.appendChild(likeButton);
+            postActions.appendChild(commentButton);
+            postActions.appendChild(shareButton);
+
+            postDiv.appendChild(postActions);
+            postContainer.prepend(postDiv);
+            
+            document.getElementById('postContent').value = '';
+            document.getElementById('postImage').value = '';
+
+        }
+
+        function logoutUser() {
+            localStorage.removeItem('token'); // Clear token from localStorage
+            alert('Logged out successfully!');
+            window.location.href = 'login.html'; // Redirect to login page
+        }
+
+    </script>
+</body>
+</html>
