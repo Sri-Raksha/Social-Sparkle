@@ -10,7 +10,7 @@ const app = express();
 // Middleware to enable CORS
 app.use(
   cors({
-    origin: "https://ss-frontend-coral.vercel.app", // Frontend URL (if needed for APIs)
+    origin: process.env.FRONTEND_URL || "http://localhost:3000", // Frontend URL for APIs
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
@@ -39,12 +39,12 @@ mongoose
 const authRoutes = require('./routes/auth');
 app.use('/api/auth', authRoutes);
 
-// Serve static files from the "public" folder
+// Serve static files from the dynamically built "public" folder
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Catch-all route to serve frontend files
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'login.html')); // Change "login.html" to your default file
+  res.sendFile(path.join(__dirname, 'public', 'index.html')); // Serve "index.html" as the entry point
 });
 
 // Error handling middleware
