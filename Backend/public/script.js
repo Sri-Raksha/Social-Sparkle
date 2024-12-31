@@ -44,6 +44,15 @@ gsap.from(".cardbox", {
   },
 });
 
+const video = document.getElementById("myVideo");
+video.addEventListener("loadedmetadata", () => {
+    // Check if the video is long enough
+    if (video.duration > 15) {
+      video.currentTime = 15; // Start at the 15th second
+    }
+    video.play(); // Ensure the video starts playing
+  });
+
 // Set the backend base URL
 const BASE_URL = "https://social-sparkle.onrender.com"; // Replace this with your deployed backend URL
 
@@ -148,11 +157,3 @@ if (["dashboard.html", "booking.html", "community.html", "village.html"].some(pa
   checkAuthentication();
 }
 
-const video = document.getElementById("myVideo");
-video.addEventListener("loadedmetadata", () => {
-    // Check if the video is long enough
-    if (video.duration > 15) {
-      video.currentTime = 15; // Start at the 15th second
-    }
-    video.play(); // Ensure the video starts playing
-  });
