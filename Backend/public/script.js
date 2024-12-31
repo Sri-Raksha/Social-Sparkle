@@ -147,3 +147,13 @@ const redirectUrl = urlParams.get("redirect") || "dashboard.html";
 if (["dashboard.html", "booking.html", "community.html", "village.html"].some(page => window.location.pathname.includes(page))) {
   checkAuthentication();
 }
+
+const video = document.getElementById("myVideo");
+
+  video.addEventListener("loadedmetadata", () => {
+    // Check if the video is long enough
+    if (video.duration > 15) {
+      video.currentTime = 15; // Start at the 15th second
+    }
+    video.play(); // Ensure the video starts playing
+  });
