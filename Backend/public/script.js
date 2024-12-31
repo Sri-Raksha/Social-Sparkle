@@ -44,6 +44,9 @@ gsap.from(".cardbox", {
   },
 });
 
+// Set the backend base URL
+const BASE_URL = "https://social-sparkle.onrender.com"; // Replace this with your deployed backend URL
+
 // Function to show popup notifications
 function showPopup(message, isError = false) {
   const popup = document.getElementById("popup");
@@ -67,7 +70,7 @@ async function loginUser() {
   const password = document.getElementById("password").value;
 
   try {
-    const response = await fetch("http://localhost:5001/api/auth/login", {
+    const response = await fetch(`${BASE_URL}/api/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
@@ -101,7 +104,7 @@ async function signupUser() {
   }
 
   try {
-    const response = await fetch("http://localhost:5001/api/auth/signup", {
+    const response = await fetch(`${BASE_URL}/api/auth/signup`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
