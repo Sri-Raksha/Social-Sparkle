@@ -149,8 +149,7 @@ if (["dashboard.html", "booking.html", "community.html", "village.html"].some(pa
 }
 
 const video = document.getElementById("myVideo");
-
-  video.addEventListener("loadedmetadata", () => {
+video.addEventListener("loadedmetadata", () => {
     // Check if the video is long enough
     if (video.duration > 15) {
       video.currentTime = 15; // Start at the 15th second
